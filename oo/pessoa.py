@@ -19,3 +19,8 @@ if __name__ == '__main__':
     print(adevar.filhos)
     for filho in adevar.filhos:
         print(filho.nome)
+    adevar.sobrenome = 'Mais'
+    del adevar.filhos
+    print(adevar.__dict__)
+    print(arthur.__dict__)
+
