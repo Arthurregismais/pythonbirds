@@ -24,6 +24,9 @@ class Ponto():
         return "Ponto(%s,%s,'%s')" % (self.x, self.y, self.caracter)
 
 
+
+
+
 class Fase():
     def __init__(self, intervalo_de_colisao=1):
         """
@@ -35,6 +38,18 @@ class Fase():
         self._passaros = []
         self._porcos = []
         self._obstaculos = []
+
+    def _possui_porco_ativo(self):
+        for porco in self._porcos:
+            if porco.status == ATIVO:
+                return True
+        return False
+
+    def _possui_passaro_ativo(self):
+        for passaro in self._passaros:
+            if passaro.status == ATIVO:
+                return True
+        return False
 
 
     def adicionar_obstaculo(self, *obstaculos):
@@ -73,7 +88,12 @@ class Fase():
 
         :return:
         """
-        return EM_ANDAMENTO
+        if not self._possui_porco_ativo():
+            return VITORIA
+        elif self._possui_porco_ativo() and self._possui_passaro_ativo():
+            return EM_ANDAMENTO
+        else:
+            return DERROTA
 
     def lancar(self, angulo, tempo):
         """
@@ -86,7 +106,11 @@ class Fase():
         :param angulo: ângulo de lançamento
         :param tempo: Tempo de lançamento
         """
-        pass
+        for passaro in self._passaros:
+            if not passaro.foi_lancado():
+                passaro.lancar(angulo, tempo)
+                break
+
 
 
     def calcular_pontos(self, tempo):
@@ -99,6 +123,12 @@ class Fase():
         :return: objeto do tipo Ponto
         """
         pontos=[self._transformar_em_ponto(a) for a in self._passaros+self._obstaculos+self._porcos]
+
+        for passaro in self._passaros:
+            passaro.calcular_posicao(tempo)
+            for alvo in self._obstaculos + self._porcos:
+                passaro.colidir(alvo, self.intervalo_de_colisao)
+            passaro.colidir_com_chao()
 
         return pontos
 
