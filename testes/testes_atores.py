@@ -47,7 +47,7 @@ class AtorTestes(TestCase):
         """
         Teste de colisão entre dois atores
         Inicialmente atores possuem status ATIVO. Ao se chocarem, ele muda para DESTRUIDO
-        A função assert_colisao_atores_ativos testa justamente se dois atore ativos se chocam quando estão em posições
+        A função assert_colisao_atores_ativos testa justamente se dois atores ativos se chocam quando estão em posições
         vizinhas.
         """
         ator = Ator(2, 2)  # Ator recém criado deve ter status ativo
@@ -127,7 +127,7 @@ class AtorTestes(TestCase):
     def assert_nao_colisao(self, ator, ator2):
         """
         Se certifica que não colisão entre dois atores
-        Atenção: Esse não é método de teste porque nao se inicia com prefixo "text".
+        Atenção: Esse não é método de teste porque nao se inicia com prefixo "test".
         Ele apenas encapsula a lógica de não colisão entre dois atores.
         So seja, eles deve manter seus respectivos status mesmo depois da chamada do metodo colidir
         """
